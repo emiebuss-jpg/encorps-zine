@@ -211,17 +211,84 @@
 
         /* MOBILE/RESPONSIVE */
         @media (max-width: 768px) {
-            .cover-link {
-                max-width: 250px;
+            body {
+                letter-spacing: 0.15em;
             }
 
-            .shop-info h1 {
-                font-size: 1.5rem;
+            .container {
+                padding: 1.5rem;
+                padding-left: 1.5rem;
+                align-items: center;
+                justify-content: flex-start;
+                padding-top: 3rem;
+            }
+
+            .ocean-background {
+                top: auto;
+                bottom: 0;
+                right: 0;
+                left: 0;
+                width: 100%;
+                display: flex;
+                align-items: flex-end;
+                justify-content: center;
+            }
+
+            .ocean-background img {
+                height: auto;
+                max-height: 50vh;
+                width: 100%;
+                object-fit: cover;
+            }
+
+            .cover-link {
+                max-width: 280px;
+                width: 90%;
+            }
+
+            .shop-info {
+                max-width: 280px;
+                width: 90%;
+                justify-content: center;
+                text-align: center;
+            }
+
+            .shop-info p {
+                font-size: 0.7rem;
             }
 
             #cursor-follower {
                 width: 2cm;
                 height: 2cm;
+            }
+
+            .swimming-goldfish {
+                width: 2.5cm;
+                height: 2.5cm;
+            }
+        }
+
+        /* EXTRA SMALL PHONES */
+        @media (max-width: 480px) {
+            .container {
+                padding: 1rem;
+            }
+
+            .cover-link {
+                max-width: 240px;
+            }
+
+            .shop-info {
+                max-width: 240px;
+            }
+
+            .shop-info p {
+                font-size: 0.65rem;
+                letter-spacing: 0.2em;
+            }
+
+            .ocean-background img {
+                opacity: 0.3;
             }
         }
     </style>
@@ -274,8 +341,20 @@
             e.preventDefault(); // Prevent immediate navigation
 
             const coverRect = coverLink.getBoundingClientRect();
-            const startX = coverRect.right;
-            const startY = coverRect.top;
+            const isMobile = window.innerWidth <= 768;
+
+            let startX, startY;
+
+            if (isMobile) {
+                // Mobile: start from left side, swim along ocean at bottom
+                startX = -100; // Start off-screen left
+                const oceanHeight = window.innerHeight * 0.4; // Ocean is 40vh
+                startY = window.innerHeight - oceanHeight + (Math.random() * oceanHeight * 0.6);
+            } else {
+                // Desktop: start from cover, swim right
+                startX = coverRect.right;
+                startY = coverRect.top;
+            }
 
             // Create multiple goldfish
             for (let i = 0; i < 8; i++) {
@@ -284,10 +363,18 @@
                     goldfish.src = 'goldfish for curser.png';
                     goldfish.className = 'swimming-goldfish';
 
-                    // Random vertical offset from cover
-                    const randomY = startY + (Math.random() * coverRect.height);
-                    goldfish.style.left = startX + 'px';
-                    goldfish.style.top = randomY + 'px';
+                    if (isMobile) {
+                        // Mobile: random Y position along ocean
+                        const oceanHeight = window.innerHeight * 0.4;
+                        const randomY = window.innerHeight - oceanHeight + (Math.random() * oceanHeight * 0.6);
+                        goldfish.style.left = startX + 'px';
+                        goldfish.style.top = randomY + 'px';
+                    } else {
+                        // Desktop: random vertical offset from cover
+                        const randomY = startY + (Math.random() * coverRect.height);
+                        goldfish.style.left = startX + 'px';
+                        goldfish.style.top = randomY + 'px';
+                    }
 
                     document.body.appendChild(goldfish);
 
