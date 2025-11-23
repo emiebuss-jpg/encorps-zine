@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ENCORPS - Zine Shop</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        @import url('https://fonts.googleapis.com/css2?family=Courier+Prime&display=swap');
+
+        :root {
+            --white: #ffffff;
+            --black: #000000;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+            cursor: none;
+        }
+
+        body {
+            font-family: 'Courier Prime', monospace;
+            letter-spacing: 0.25em;
+            background-color: var(--white);
+            color: var(--black);
+            position: relative;
+        }
+
+        /* OCEAN BACKGROUND - 2 INCHES FROM TOP */
+        .ocean-background {
+            position: absolute;
+            top: 1.5in;
+            right: 1.5rem;
+            width: auto;
+            height: auto;
+            z-index: -1;
+        }
+
+        .ocean-background img {
+            width: auto;
+            max-width: none;
+            height: calc(100vh - 1.5in);
+            display: block;
+            opacity: 0.4;
+            animation: oceanWave 4s ease-in-out infinite;
+            transform-origin: top right;
+        }
+
+        @keyframes oceanWave {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        /* GOLDFISH CURSOR FOLLOWER */
+        #cursor-follower {
+            position: fixed;
+            width: 2.5cm;
+            height: 2.5cm;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+            transition: transform 0.1s ease-out;
+            mix-blend-mode: multiply;
+        }
+
+        /* ANIMATED GOLDFISH */
+        .swimming-goldfish {
+            position: fixed;
+            width: 3cm;
+            height: 3cm;
+            pointer-events: none;
+            z-index: 100;
+            mix-blend-mode: multiply;
+            animation: swimRight 3s linear forwards;
+            transform: scaleX(-1);
+        }
+
+        @keyframes swimRight {
+            0% {
+                opacity: 1;
+                transform: scaleX(-1) translateY(0px);
+            }
+            10% {
+                transform: scaleX(-1) translateY(-8px);
+            }
+            20% {
+                transform: scaleX(-1) translateY(0px);
+            }
+            30% {
+                transform: scaleX(-1) translateY(8px);
+            }
+            40% {
+                transform: scaleX(-1) translateY(0px);
+            }
+            50% {
+                transform: scaleX(-1) translateY(-8px);
+            }
+            60% {
+                transform: scaleX(-1) translateY(0px);
+            }
+            70% {
+                transform: scaleX(-1) translateY(8px);
+            }
+            80% {
+                transform: scaleX(-1) translateY(0px);
+            }
+            90% {
+                opacity: 1;
+                transform: scaleX(-1) translateY(-8px);
+            }
+            95% {
+                transform: scaleX(-1) translateY(0px);
+            }
+            100% {
+                left: 120vw;
+                opacity: 0;
+                transform: scaleX(-1) translateY(0px);
+            }
+        }
+
+        /* MAIN CONTAINER */
+        .container {
+            position: relative;
+            z-index: 1;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: center;
+            padding: 2rem;
+            padding-left: calc(2rem + 2in);
+            gap: 1rem;
+        }
+
+        /* CLICKABLE ZINE COVER */
+        .cover-link {
+            display: block;
+            width: 100%;
+            max-width: 350px;
+            aspect-ratio: 3/4;
+            border: 1px solid var(--black);
+            background: white;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            text-decoration: none;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .cover-link:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .cover-link img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* INFO TEXT BELOW COVER */
+        .shop-info {
+            text-align: left;
+            background: transparent;
+            padding: 0.5rem 0;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            max-width: 350px;
+            width: 100%;
+            gap: 0.5rem;
+        }
+
+        .shop-info h1 {
+            display: none;
+        }
+
+        .shop-info p {
+            font-size: 0.75rem;
+            font-weight: 400;
+            letter-spacing: 0.25em;
+            text-transform: lowercase;
+            margin: 0;
+        }
+
+        .shop-info p::after {
+            content: ' ↑';
+            font-size: 1rem;
+        }
+
+        /* MOBILE/RESPONSIVE */
+        @media (max-width: 768px) {
+            .cover-link {
+                max-width: 250px;
+            }
+
+            .shop-info h1 {
+                font-size: 1.5rem;
+            }
+
+            #cursor-follower {
+                width: 2cm;
+                height: 2cm;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- OCEAN BACKGROUND -->
+    <div class="ocean-background">
+        <img src="ocean2.png" alt="Ocean Background">
+    </div>
+
+    <!-- GOLDFISH CURSOR FOLLOWER -->
+    <img id="cursor-follower" src="goldfish for curser.png" alt="">
+
+    <!-- MAIN CONTAINER -->
+    <div class="container">
+        <!-- CLICKABLE ZINE COVER -->
+        <a href="https://ko-fi.com/s/9dc721df01" target="_blank" class="cover-link">
+            <img src="zinecoverpage.png" alt="ENCORPS Zine Cover">
+        </a>
+
+        <!-- SHOP INFO -->
+        <div class="shop-info">
+            <h1>ENCORPS</h1>
+            <p>click above</p>
+        </div>
+    </div>
+
+    <script>
+        // Goldfish cursor follower
+        const cursorFollower = document.getElementById('cursor-follower');
+
+        document.addEventListener('mousemove', (e) => {
+            cursorFollower.style.left = e.clientX + 'px';
+            cursorFollower.style.top = e.clientY + 'px';
+        });
+
+        // Hide cursor follower when mouse leaves window
+        document.addEventListener('mouseleave', () => {
+            cursorFollower.style.opacity = '0';
+        });
+
+        document.addEventListener('mouseenter', () => {
+            cursorFollower.style.opacity = '1';
+        });
+
+        // Goldfish animation on cover click
+        const coverLink = document.querySelector('.cover-link');
+
+        coverLink.addEventListener('click', (e) => {
+            e.preventDefault(); // Prevent immediate navigation
+
+            const coverRect = coverLink.getBoundingClientRect();
+            const startX = coverRect.right;
+            const startY = coverRect.top;
+
+            // Create multiple goldfish
+            for (let i = 0; i < 8; i++) {
+                setTimeout(() => {
+                    const goldfish = document.createElement('img');
+                    goldfish.src = 'goldfish for curser.png';
+                    goldfish.className = 'swimming-goldfish';
+
+                    // Random vertical offset from cover
+                    const randomY = startY + (Math.random() * coverRect.height);
+                    goldfish.style.left = startX + 'px';
+                    goldfish.style.top = randomY + 'px';
+
+                    document.body.appendChild(goldfish);
+
+                    // Remove goldfish after animation
+                    setTimeout(() => {
+                        goldfish.remove();
+                    }, 3000);
+                }, i * 150); // Stagger each goldfish by 150ms
+            }
+
+            // Navigate to Ko-fi after ALL goldfish animations complete
+            // Last goldfish starts at 7 * 150ms = 1050ms, then swims for 3000ms
+            setTimeout(() => {
+                window.open('https://ko-fi.com/s/9dc721df01', '_blank');
+            }, 3950);
+        });
+    </script>
+</body>
+</html>
